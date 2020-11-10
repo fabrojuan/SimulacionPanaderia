@@ -17,8 +17,8 @@ public class Configuracion {
 	private int cantidadEmpleados;
 	private Double minutosAtencionEmpleadosA;
 	private Double minutosAtencionEmpleadosB;
-	private int cantidadMinCompraCliente;
-	private int cantidadMaxCompraCliente;
+	private Long cantidadMinCompraCliente;
+	private Long cantidadMaxCompraCliente;
 	private Double minutosTemperaturaMaximaHorno;
 	private Long diasSimular;
 	private Double productosCompraClienteA;
@@ -36,10 +36,10 @@ public class Configuracion {
 		cantidadEmpleados = 2;
 		minutosAtencionEmpleadosA = 0.5d;
 		minutosAtencionEmpleadosB = 1.5d;
-		cantidadMinCompraCliente = 1;
-		cantidadMaxCompraCliente = 9;
+		cantidadMinCompraCliente = 1l;
+		cantidadMaxCompraCliente = 3l;
 		minutosTemperaturaMaximaHorno = 15d;
-		diasSimular = 1000000l;
+		diasSimular = 2l;
 		cantidadStockProductosInicial = 15l;
 		minutosMaxExperaPorNuevosProductos = 5d;
 		minutosEntreEncendidosHorno = 45d;
@@ -88,19 +88,19 @@ public class Configuracion {
 		this.minutosAtencionEmpleadosB = minutosAtencionEmpleadosB;
 	}
 
-	public int getCantidadMinCompraCliente() {
+	public Long getCantidadMinCompraCliente() {
 		return cantidadMinCompraCliente;
 	}
 
-	public void setCantidadMinCompraCliente(int cantidadMinCompraCliente) {
+	public void setCantidadMinCompraCliente(Long cantidadMinCompraCliente) {
 		this.cantidadMinCompraCliente = cantidadMinCompraCliente;
 	}
 
-	public int getCantidadMaxCompraCliente() {
+	public Long getCantidadMaxCompraCliente() {
 		return cantidadMaxCompraCliente;
 	}
 
-	public void setCantidadMaxCompraCliente(int cantidadMaxCompraCliente) {
+	public void setCantidadMaxCompraCliente(Long cantidadMaxCompraCliente) {
 		this.cantidadMaxCompraCliente = cantidadMaxCompraCliente;
 	}
 

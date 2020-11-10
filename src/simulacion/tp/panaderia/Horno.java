@@ -5,7 +5,7 @@
  */
 package simulacion.tp.panaderia;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Horno {
     
 
 	private EstadoServidor estado;
-	private LocalTime momentoFinCoccion;
+	private LocalDateTime momentoFinCoccion;
 	private Long cantidadCocinar;
 	
 	public Horno() {
@@ -64,7 +64,7 @@ public class Horno {
 						momentoFinCoccion));
 		
 		// Programo tambien el nuevo inicio de coccion
-		LocalTime momentoNuevoInicioCoccion = actual.getReloj().plusSeconds((long) (Configuracion.getInstance().getMinutosEntreEncendidosHorno() * 60));
+		LocalDateTime momentoNuevoInicioCoccion = actual.getReloj().plusSeconds((long) (Configuracion.getInstance().getMinutosEntreEncendidosHorno() * 60));
 		if(momentoNuevoInicioCoccion.isBefore(momentoFinCoccion)) {
 			momentoNuevoInicioCoccion = momentoFinCoccion.plusSeconds(1);
 		} 
@@ -105,7 +105,7 @@ public class Horno {
 	public EstadoServidor getEstado() {
 		return estado;
 	}
-	public LocalTime getMomentoFinCoccion() {
+	public LocalDateTime getMomentoFinCoccion() {
 		return momentoFinCoccion;
 	}
 

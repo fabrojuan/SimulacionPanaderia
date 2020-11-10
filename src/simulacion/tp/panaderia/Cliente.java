@@ -5,7 +5,7 @@
  */
 package simulacion.tp.panaderia;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -14,11 +14,11 @@ import java.time.LocalTime;
 public class Cliente {
 
 	private Long nroCliente;
-	private LocalTime momentoLlegadaPanaderia;
-	private LocalTime momentoEsperaAgotada;
+	private LocalDateTime momentoLlegadaPanaderia;
+	private LocalDateTime momentoEsperaAgotada;
 	private int cantidadPedida;
 	
-	public Cliente(Long nroCliente, LocalTime momentoLlegadaPanaderia, int cantidadPedida) {
+	public Cliente(Long nroCliente, LocalDateTime momentoLlegadaPanaderia, int cantidadPedida) {
 		super();
 		this.nroCliente = nroCliente;
 		this.momentoLlegadaPanaderia = momentoLlegadaPanaderia;
@@ -30,10 +30,10 @@ public class Cliente {
 	public void setNroCliente(Long nroCliente) {
 		this.nroCliente = nroCliente;
 	}
-	public LocalTime getMomentoLlegadaPanaderia() {
+	public LocalDateTime getMomentoLlegadaPanaderia() {
 		return momentoLlegadaPanaderia;
 	}
-	public void setMomentoLlegadaPanaderia(LocalTime momentoLlegadaPanaderia) {
+	public void setMomentoLlegadaPanaderia(LocalDateTime momentoLlegadaPanaderia) {
 		this.momentoLlegadaPanaderia = momentoLlegadaPanaderia;
 	}
 	public int getCantidadPedida() {
@@ -42,10 +42,10 @@ public class Cliente {
 	public void setCantidadPedida(int cantidadPedida) {
 		this.cantidadPedida = cantidadPedida;
 	}
-	public LocalTime getMomentoEsperaAgotada() {
+	public LocalDateTime getMomentoEsperaAgotada() {
 		return momentoEsperaAgotada;
 	}
-	public void setMomentoEsperaAgotada(LocalTime momentoEsperaAgotada) {
+	public void setMomentoEsperaAgotada(LocalDateTime momentoEsperaAgotada) {
 		this.momentoEsperaAgotada = momentoEsperaAgotada;
 	}
 	

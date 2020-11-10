@@ -5,7 +5,7 @@
  */
 package simulacion.tp.panaderia;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Empleado {
     
 	private int id;
 	private EstadoServidor estado;
-	private LocalTime momentoFinAtencion;
+	private LocalDateTime momentoFinAtencion;
 	
 	public Empleado(int id) {
             this.id = id;
@@ -65,11 +65,11 @@ public class Empleado {
 		this.estado = estado;
 	}
 
-	public LocalTime getMomentoFinAtencion() {
+	public LocalDateTime getMomentoFinAtencion() {
 		return momentoFinAtencion;
 	}
 
-	public void setMomentoFinAtencion(LocalTime momentoFinAtencion) {
+	public void setMomentoFinAtencion(LocalDateTime momentoFinAtencion) {
 		this.momentoFinAtencion = momentoFinAtencion;
 	}
 	

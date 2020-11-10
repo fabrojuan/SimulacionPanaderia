@@ -5,7 +5,7 @@
  */
 package simulacion.tp.panaderia;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -38,7 +38,7 @@ public class Cola {
             listItemsCola.remove(cliente);
         }
 	
-	public void notificarEsperaClienteAgotada(LocalTime momentoToleranciaMaximo) {
+	public void notificarEsperaClienteAgotada(LocalDateTime momentoToleranciaMaximo) {
 		Cliente clienteSeVa = listItemsCola
 				.stream()
 				.filter(p -> momentoToleranciaMaximo.equals(p.getMomentoEsperaAgotada()))

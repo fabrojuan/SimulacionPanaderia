@@ -5,14 +5,11 @@
  */
 package simulacion.tp.panaderia;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import javax.swing.JFormattedTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.text.NumberFormatter;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -205,17 +202,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnSimular);
 
-        tablaSimulacion.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"1", "5", "dcsd", null, "dfd", null, null, null, null, null, null, null, null},
-                {"2", "6", "dfd", null, "dfd", null, null, null, null, null, null, null, null},
-                {"3", "7", "df", null, "df", null, null, null, null, null, null, null, null},
-                {"4", null, "dfd", null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Reloj", "Evento", "Proxima Lleg Cliente", "Cola Clientes", "Empl 1 - Estado", "Empl 1 - Prox Fin ate", "Empl 2 - Estado", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13"
-            }
-        ));
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        tablaSimulacion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(tablaSimulacion);
 
         getContentPane().add(jScrollPane1);
@@ -230,10 +220,25 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private Long nroCliente = 0l;
 
     public void comenzarSimulacion() {
+        
+        config.setMediaMinutosLlegadaClientes((Double) txtMediaLlegadasClientes.getValue());
+        config.setMinutosMaxExperaPorNuevosProductos((Double) txtMinutosToleranciaClientes.getValue());
+        config.setMinutosAtencionEmpleadosA((Double) txtMinutosAtencionA.getValue());
+        config.setMinutosAtencionEmpleadosB((Double) txtMinutosAtencionB.getValue());
+        config.setCantidadStockProductosInicial((Long) txtStockInicial.getValue());
+        config.setMinutosEntreEncendidosHorno((Double) txtMinutosEntreEncendidos.getValue());
+        config.setMinutosTemperaturaMaximaHorno((Double) txtMinutosTemperaturaMaxima.getValue());
+        config.setTemperaturaInicialHorno((Double) txtTemperaturaInicial.getValue());
+        config.setCantProductosCocinarSiHayStock((Long) txtCantCocinarSiHayStock.getValue());
+        config.setCantProductosCocinarSiNoHayStock((Long) txtCantCocinarSiNoHayStock.getValue());
+        config.setCantidadMaxCompraCliente((Long) txtCantMaxCompraCliente.getValue());
+
         nroCliente = 0l;
         VectorEstado anterior = new VectorEstado();
         VectorEstado actual = getVectorEstadoInicial();
         int nroFilaTabla = 0;
+        Long nroFilaSimulacion = 0l;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
 
         // Seteos de la tabla
         DefaultTableModel tableModel = new DefaultTableModel();
@@ -253,14 +258,39 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         tableModel.addColumn("Horno - Prox Ini Coccion");
         tableModel.addColumn("Horno - Prox Fin Coccion");
         tableModel.addColumn("Horno - Cant Cocinar");
-
+        tableModel.addColumn("Total Clientes");
+        tableModel.addColumn("Total Perdidos");
+        tableModel.addColumn("% Perdidos");
+        
+        TableColumnModel columnModel = tablaSimulacion.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(130);
+        columnModel.getColumn(1).setPreferredWidth(130);
+        columnModel.getColumn(2).setPreferredWidth(130);
+        columnModel.getColumn(3).setPreferredWidth(130);
+        columnModel.getColumn(4).setPreferredWidth(40);
+        columnModel.getColumn(5).setPreferredWidth(80);
+        columnModel.getColumn(6).setPreferredWidth(40);
+        columnModel.getColumn(7).setPreferredWidth(80);
+        columnModel.getColumn(8).setPreferredWidth(130);
+        columnModel.getColumn(9).setPreferredWidth(80);
+        columnModel.getColumn(10).setPreferredWidth(130);
+        columnModel.getColumn(11).setPreferredWidth(80);
+        columnModel.getColumn(12).setPreferredWidth(130);
+        columnModel.getColumn(13).setPreferredWidth(130);
+        columnModel.getColumn(14).setPreferredWidth(40);
+        columnModel.getColumn(15).setPreferredWidth(60);
+        columnModel.getColumn(16).setPreferredWidth(60);
+        columnModel.getColumn(17).setPreferredWidth(60);
+        
         // Comienza la simulacion
         while (!(actual.getEventoActual().getTipoEvento().equals(TipoEvento.FIN_SIMULACION))) {
-
-            System.out.println(actual.getEventoActual());
-
-            if (actual.getEventoActual().getTipoEvento().equals(TipoEvento.LLEGADA_CLIENTE)) {
+            nroFilaSimulacion++;
+            
+            if(actual.getEventoActual().getTipoEvento().equals(TipoEvento.INICIO_SIMULACION)) {
+            
+            } else if (actual.getEventoActual().getTipoEvento().equals(TipoEvento.LLEGADA_CLIENTE)) {
                 Cliente cliente = getNuevoCliente(actual.getReloj());
+                actual.setCantClientesSistema(actual.getCantClientesSistema()+1);
                 actual.setInfoEvento("Cliente " + cliente.getNroCliente() + ", cantidad: " + cliente.getCantidadPedida());
 
                 // Cuando un cliente llega, si no hay productos para vender en los próximos 5 minutos, se retira.
@@ -290,15 +320,18 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 // Si sigue sin haber productos el cliente se va
                 if (actual.getCantidadStockProductos().equals(0l)) {
                     actual.getCola().notificarEsperaClienteAgotada(actual.getReloj());
+                    actual.setCantClientesPerdidos(actual.getCantClientesPerdidos()+1);
                 }
 
             } else if (actual.getEventoActual().getTipoEvento().equals(TipoEvento.FIN_ATENCION)) {
                 Empleado empleado = getEmpleadoTerminoAtender(actual);
                 empleado.finalizarAtencion();
+                actual.setInfoEvento("Empleado " + empleado.getId());
 
                 if (actual.getCantidadStockProductos() > 0 && actual.getCola().hayClientesEnEspera()) {
                     Cliente cliente = actual.getCola().getProximoClienteAtender();
                     empleado.empezarAtenderCliente(cliente, actual);
+                    actual.setInfoEvento(actual.getInfoEvento() + " - Se sigue con Cliente " + cliente.getNroCliente());
                 }
 
             } else if (actual.getEventoActual().getTipoEvento().equals(TipoEvento.INICIO_COCCION)) {
@@ -317,6 +350,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                     Empleado empleado = getEmpleadoLibre(actual);
                     Cliente cliente = actual.getCola().getProximoClienteAtender();
                     empleado.empezarAtenderCliente(cliente, actual);
+                    actual.setInfoEvento("Se sigue con Cliente " + cliente.getNroCliente());
                 }
 
                 if (actual.getCola().hayClientesEnEspera()
@@ -324,12 +358,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                     Empleado empleado = getEmpleadoLibre(actual);
                     Cliente cliente = actual.getCola().getProximoClienteAtender();
                     empleado.empezarAtenderCliente(cliente, actual);
+                    actual.setInfoEvento(actual.getInfoEvento() + " - Se sigue con Cliente " + cliente.getNroCliente());
                 }
 
             }
 
-            tableModel.insertRow(nroFilaTabla,
-                     new Object[]{actual.getReloj().toString(),
+            //if(nroFilaSimulacion == 1 || nroFilaSimulacion%100 == 0) {
+                tableModel.insertRow(nroFilaTabla,
+                     new Object[]{actual.getReloj().format(formatter),
                         actual.getEventoActual().getTipoEvento().name(),
                         actual.getInfoEvento(),
                         actual.getMomentoProxLlegadaCli(),
@@ -343,19 +379,42 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                         actual.getHorno().getEstado().name(),
                         actual.getProximoIniCoccion(),
                         actual.getHorno().getMomentoFinCoccion(),
-                        actual.getHorno().getCantidadCocinar()});
-            nroFilaTabla += 1;
-
+                        actual.getHorno().getCantidadCocinar(),
+                        actual.getCantClientesSistema(),
+                        actual.getCantClientesPerdidos(),
+                        actual.getPorcClientesPerdidos()});
+                nroFilaTabla += 1;
+            //}
+            
             // Genero el vector estado actual nuevo
             anterior = actual;
             actual = getActual(anterior);
         }
 
+        tableModel.insertRow(nroFilaTabla,
+                     new Object[]{actual.getReloj().format(formatter),
+                        actual.getEventoActual().getTipoEvento().name(),
+                        actual.getInfoEvento(),
+                        actual.getMomentoProxLlegadaCli(),
+                        actual.getCola().getTamanoCola(),
+                        actual.getCola().getOrdenClientesEnCola(),
+                        actual.getCantidadStockProductos(),
+                        actual.getEstadoEmpleado(1).name(),
+                        actual.getProximoFinAteEmpleado(1),
+                        actual.getEstadoEmpleado(2).name(),
+                        actual.getProximoFinAteEmpleado(2),
+                        actual.getHorno().getEstado().name(),
+                        actual.getProximoIniCoccion(),
+                        actual.getHorno().getMomentoFinCoccion(),
+                        actual.getHorno().getCantidadCocinar(),
+                        actual.getCantClientesSistema(),
+                        actual.getCantClientesPerdidos(),
+                        actual.getPorcClientesPerdidos()});
         System.out.println("Fin Simulacion!!");
 
     }
 
-    private Cliente getNuevoCliente(LocalTime reloj) {
+    private Cliente getNuevoCliente(LocalDateTime reloj) {
         // Mejorar esto
         Double random = GeneradorRandom.nextDouble();
         int cantidadPedida = 0;
@@ -394,7 +453,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         return empleado;
     }
 
-    public LocalTime getMomentoProximaLlegadaCliente(LocalTime reloj) {
+    public LocalDateTime getMomentoProximaLlegadaCliente(LocalDateTime reloj) {
         Double minutosHastaProximaLlegada
                 = (-1 * Configuracion.getInstance().getMediaMinutosLlegadaClientes()) * Math.log(1 - GeneradorRandom.nextDouble());
         return reloj.plusSeconds((long) (minutosHastaProximaLlegada * 60));
@@ -422,7 +481,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         actual.setCola(new Cola());
 
-        actual.setReloj(LocalTime.ofSecondOfDay(0));
+        actual.setReloj(LocalDateTime.now());
         actual.setEventoActual(
                 new Evento(TipoEvento.INICIO_SIMULACION,
                         actual.getReloj()));
@@ -434,7 +493,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                         actual.getReloj().plusSeconds((long) (Configuracion.getInstance().getMinutosEntreEncendidosHorno() * 60))));
         actual.addEvento(
                 new Evento(TipoEvento.FIN_SIMULACION,
-                        actual.getReloj().plusHours(23 * Configuracion.getInstance().getDiasSimular())));
+                        actual.getReloj().plusHours(24 * Configuracion.getInstance().getDiasSimular())));
 
         return actual;
     }
@@ -457,6 +516,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         actual.setListEventos(anterior.getListEventos());
         actual.getListEventos().remove(actual.getEventoActual());
         actual.setCantidadStockProductos(anterior.getCantidadStockProductos());
+        actual.setCantClientesSistema(anterior.getCantClientesSistema());
+        actual.setCantClientesPerdidos(anterior.getCantClientesPerdidos());
         return actual;
     }
 

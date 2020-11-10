@@ -5,7 +5,7 @@
  */
 package simulacion.tp.panaderia;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -14,9 +14,9 @@ import java.time.LocalTime;
 public class Evento {
    
 	private TipoEvento tipoEvento;
-	private LocalTime momentoOcurrencia;
+	private LocalDateTime momentoOcurrencia;
 	
-	public Evento(TipoEvento tipoEvento, LocalTime momentoOcurrencia) {
+	public Evento(TipoEvento tipoEvento, LocalDateTime momentoOcurrencia) {
 		super();
 		this.tipoEvento = tipoEvento;
 		this.momentoOcurrencia = momentoOcurrencia;
@@ -33,10 +33,10 @@ public class Evento {
 	public void setTipoEvento(TipoEvento tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
-	public LocalTime getMomentoOcurrencia() {
+	public LocalDateTime getMomentoOcurrencia() {
 		return momentoOcurrencia;
 	}
-	public void setMomentoOcurrencia(LocalTime momentoOcurrencia) {
+	public void setMomentoOcurrencia(LocalDateTime momentoOcurrencia) {
 		this.momentoOcurrencia = momentoOcurrencia;
 	}
  
