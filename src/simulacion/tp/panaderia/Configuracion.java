@@ -10,186 +10,216 @@ package simulacion.tp.panaderia;
  * @author juan
  */
 public class Configuracion {
-    
-	private static Configuracion configuracion;
-	
-	private Double mediaMinutosLlegadaClientes;
-	private int cantidadEmpleados;
-	private Double minutosAtencionEmpleadosA;
-	private Double minutosAtencionEmpleadosB;
-	private Long cantidadMinCompraCliente;
-	private Long cantidadMaxCompraCliente;
-	private Double minutosTemperaturaMaximaHorno;
-	private Long diasSimular;
-	private Double productosCompraClienteA;
-	private Double productosCompraClienteB;
-	private Long cantidadStockProductosInicial;
-	private Double minutosMaxExperaPorNuevosProductos;
-	private Double minutosEntreEncendidosHorno;
-	private Double temperaturaInicialHorno;
-	private Long cantProductosCocinarSiHayStock;
-	private Long cantProductosCocinarSiNoHayStock;
-	private Double hRoungeKuttaHorno;
-	
-	public Configuracion() {
-		mediaMinutosLlegadaClientes = 3d;
-		cantidadEmpleados = 2;
-		minutosAtencionEmpleadosA = 0.5d;
-		minutosAtencionEmpleadosB = 1.5d;
-		cantidadMinCompraCliente = 1l;
-		cantidadMaxCompraCliente = 3l;
-		minutosTemperaturaMaximaHorno = 15d;
-		diasSimular = 2l;
-		cantidadStockProductosInicial = 15l;
-		minutosMaxExperaPorNuevosProductos = 5d;
-		minutosEntreEncendidosHorno = 45d;
-		temperaturaInicialHorno = 5d;
-		cantProductosCocinarSiHayStock = 30l;
-		cantProductosCocinarSiNoHayStock = 45l;
-		hRoungeKuttaHorno = 0.5d;
-	}
-		
-	public static Configuracion getInstance() {
-		if(configuracion == null)
-			configuracion = new Configuracion();
-		
-		return configuracion;
-	}
 
-	public Double getMediaMinutosLlegadaClientes() {
-		return mediaMinutosLlegadaClientes;
-	}
+    private static Configuracion configuracion;
 
-	public void setMediaMinutosLlegadaClientes(Double mediaMinutosLlegadaClientes) {
-		this.mediaMinutosLlegadaClientes = mediaMinutosLlegadaClientes;
-	}
+    private Double mediaMinutosLlegadaClientes;
+    private int cantidadEmpleados;
+    private Double minutosAtencionEmpleadosA;
+    private Double minutosAtencionEmpleadosB;
+    private Long cantidadMinCompraCliente;
+    private Long cantidadMaxCompraCliente;
+    private Double minutosTemperaturaMaximaHorno;
+    private Long diasSimular;
+    private Double productosCompraClienteA;
+    private Double productosCompraClienteB;
+    private Long cantidadStockProductosInicial;
+    private Double minutosMaxExperaPorNuevosProductos;
+    private Double minutosEntreEncendidosHorno;
+    private Double temperaturaInicialHorno;
+    private Long cantProductosCocinarSiHayStock;
+    private Long cantProductosCocinarSiNoHayStock;
+    private Double hRoungeKuttaHorno;
+    private Long mostrarCadaXDias = 1000l;
+    private int horasAtencion;
+    private Long cantFilasVisualizar;
 
-	public int getCantidadEmpleados() {
-		return cantidadEmpleados;
-	}
+    public Long getCantFilasVisualizar() {
+        return cantFilasVisualizar;
+    }
 
-	public void setCantidadEmpleados(int cantidadEmpleados) {
-		this.cantidadEmpleados = cantidadEmpleados;
-	}
+    public void setCantFilasVisualizar(Long cantFilasVisualizar) {
+        this.cantFilasVisualizar = cantFilasVisualizar;
+    }
 
-	public Double getMinutosAtencionEmpleadosA() {
-		return minutosAtencionEmpleadosA;
-	}
+    public int getHorasAtencion() {
+        return horasAtencion;
+    }
 
-	public void setMinutosAtencionEmpleadosA(Double minutosAtencionEmpleadosA) {
-		this.minutosAtencionEmpleadosA = minutosAtencionEmpleadosA;
-	}
+    public void setHorasAtencion(int horasAtencion) {
+        this.horasAtencion = horasAtencion;
+    }
 
-	public Double getMinutosAtencionEmpleadosB() {
-		return minutosAtencionEmpleadosB;
-	}
+    public Configuracion() {
+        mediaMinutosLlegadaClientes = 3d;
+        cantidadEmpleados = 2;
+        minutosAtencionEmpleadosA = 0.5d;
+        minutosAtencionEmpleadosB = 1.5d;
+        cantidadMinCompraCliente = 1l;
+        cantidadMaxCompraCliente = 3l;
+        minutosTemperaturaMaximaHorno = 15d;
+        diasSimular = 5l;
+        cantidadStockProductosInicial = 15l;
+        minutosMaxExperaPorNuevosProductos = 5d;
+        minutosEntreEncendidosHorno = 45d;
+        temperaturaInicialHorno = 5d;
+        cantProductosCocinarSiHayStock = 30l;
+        cantProductosCocinarSiNoHayStock = 45l;
+        hRoungeKuttaHorno = 0.5d;
+        horasAtencion = 20;
+        cantFilasVisualizar = 10000l;
+    }
 
-	public void setMinutosAtencionEmpleadosB(Double minutosAtencionEmpleadosB) {
-		this.minutosAtencionEmpleadosB = minutosAtencionEmpleadosB;
-	}
+    public static Configuracion getInstance() {
+        if (configuracion == null) {
+            configuracion = new Configuracion();
+        }
 
-	public Long getCantidadMinCompraCliente() {
-		return cantidadMinCompraCliente;
-	}
+        return configuracion;
+    }
 
-	public void setCantidadMinCompraCliente(Long cantidadMinCompraCliente) {
-		this.cantidadMinCompraCliente = cantidadMinCompraCliente;
-	}
+    public Double getMediaMinutosLlegadaClientes() {
+        return mediaMinutosLlegadaClientes;
+    }
 
-	public Long getCantidadMaxCompraCliente() {
-		return cantidadMaxCompraCliente;
-	}
+    public void setMediaMinutosLlegadaClientes(Double mediaMinutosLlegadaClientes) {
+        this.mediaMinutosLlegadaClientes = mediaMinutosLlegadaClientes;
+    }
 
-	public void setCantidadMaxCompraCliente(Long cantidadMaxCompraCliente) {
-		this.cantidadMaxCompraCliente = cantidadMaxCompraCliente;
-	}
+    public int getCantidadEmpleados() {
+        return cantidadEmpleados;
+    }
 
-	public Double getMinutosTemperaturaMaximaHorno() {
-		return minutosTemperaturaMaximaHorno;
-	}
+    public void setCantidadEmpleados(int cantidadEmpleados) {
+        this.cantidadEmpleados = cantidadEmpleados;
+    }
 
-	public void setMinutosTemperaturaMaximaHorno(Double minutosTemperaturaMaximaHorno) {
-		this.minutosTemperaturaMaximaHorno = minutosTemperaturaMaximaHorno;
-	}
+    public Double getMinutosAtencionEmpleadosA() {
+        return minutosAtencionEmpleadosA;
+    }
 
-	public Long getDiasSimular() {
-		return diasSimular;
-	}
+    public void setMinutosAtencionEmpleadosA(Double minutosAtencionEmpleadosA) {
+        this.minutosAtencionEmpleadosA = minutosAtencionEmpleadosA;
+    }
 
-	public void setDiasSimular(Long diasSimular) {
-		this.diasSimular = diasSimular;
-	}
+    public Double getMinutosAtencionEmpleadosB() {
+        return minutosAtencionEmpleadosB;
+    }
 
-	public Double getProductosCompraClienteA() {
-		return productosCompraClienteA;
-	}
+    public void setMinutosAtencionEmpleadosB(Double minutosAtencionEmpleadosB) {
+        this.minutosAtencionEmpleadosB = minutosAtencionEmpleadosB;
+    }
 
-	public void setProductosCompraClienteA(Double productosCompraClienteA) {
-		this.productosCompraClienteA = productosCompraClienteA;
-	}
+    public Long getCantidadMinCompraCliente() {
+        return cantidadMinCompraCliente;
+    }
 
-	public Double getProductosCompraClienteB() {
-		return productosCompraClienteB;
-	}
+    public void setCantidadMinCompraCliente(Long cantidadMinCompraCliente) {
+        this.cantidadMinCompraCliente = cantidadMinCompraCliente;
+    }
 
-	public void setProductosCompraClienteB(Double productosCompraClienteB) {
-		this.productosCompraClienteB = productosCompraClienteB;
-	}
+    public Long getCantidadMaxCompraCliente() {
+        return cantidadMaxCompraCliente;
+    }
 
-	public Long getCantidadStockProductosInicial() {
-		return cantidadStockProductosInicial;
-	}
+    public void setCantidadMaxCompraCliente(Long cantidadMaxCompraCliente) {
+        this.cantidadMaxCompraCliente = cantidadMaxCompraCliente;
+    }
 
-	public void setCantidadStockProductosInicial(Long cantidadStockProductosInicial) {
-		this.cantidadStockProductosInicial = cantidadStockProductosInicial;
-	}
+    public Double getMinutosTemperaturaMaximaHorno() {
+        return minutosTemperaturaMaximaHorno;
+    }
 
-	public Double getMinutosMaxExperaPorNuevosProductos() {
-		return minutosMaxExperaPorNuevosProductos;
-	}
+    public void setMinutosTemperaturaMaximaHorno(Double minutosTemperaturaMaximaHorno) {
+        this.minutosTemperaturaMaximaHorno = minutosTemperaturaMaximaHorno;
+    }
 
-	public void setMinutosMaxExperaPorNuevosProductos(Double minutosMaxExperaPorNuevosProductos) {
-		this.minutosMaxExperaPorNuevosProductos = minutosMaxExperaPorNuevosProductos;
-	}
+    public Long getDiasSimular() {
+        return diasSimular;
+    }
 
-	public Double getMinutosEntreEncendidosHorno() {
-		return minutosEntreEncendidosHorno;
-	}
+    public void setDiasSimular(Long diasSimular) {
+        this.diasSimular = diasSimular;
+    }
 
-	public void setMinutosEntreEncendidosHorno(Double minutosEntreEncendidosHorno) {
-		this.minutosEntreEncendidosHorno = minutosEntreEncendidosHorno;
-	}
+    public Double getProductosCompraClienteA() {
+        return productosCompraClienteA;
+    }
 
-	public Double getTemperaturaInicialHorno() {
-		return temperaturaInicialHorno;
-	}
+    public void setProductosCompraClienteA(Double productosCompraClienteA) {
+        this.productosCompraClienteA = productosCompraClienteA;
+    }
 
-	public void setTemperaturaInicialHorno(Double temperaturaInicialHorno) {
-		this.temperaturaInicialHorno = temperaturaInicialHorno;
-	}
+    public Double getProductosCompraClienteB() {
+        return productosCompraClienteB;
+    }
 
-	public Long getCantProductosCocinarSiHayStock() {
-		return cantProductosCocinarSiHayStock;
-	}
+    public void setProductosCompraClienteB(Double productosCompraClienteB) {
+        this.productosCompraClienteB = productosCompraClienteB;
+    }
 
-	public void setCantProductosCocinarSiHayStock(Long cantProductosCocinarSiHayStock) {
-		this.cantProductosCocinarSiHayStock = cantProductosCocinarSiHayStock;
-	}
+    public Long getCantidadStockProductosInicial() {
+        return cantidadStockProductosInicial;
+    }
 
-	public Long getCantProductosCocinarSiNoHayStock() {
-		return cantProductosCocinarSiNoHayStock;
-	}
+    public void setCantidadStockProductosInicial(Long cantidadStockProductosInicial) {
+        this.cantidadStockProductosInicial = cantidadStockProductosInicial;
+    }
 
-	public void setCantProductosCocinarSiNoHayStock(Long cantProductosCocinarSiNoHayStock) {
-		this.cantProductosCocinarSiNoHayStock = cantProductosCocinarSiNoHayStock;
-	}
+    public Double getMinutosMaxExperaPorNuevosProductos() {
+        return minutosMaxExperaPorNuevosProductos;
+    }
 
-	public Double gethRoungeKuttaHorno() {
-		return hRoungeKuttaHorno;
-	}
+    public void setMinutosMaxExperaPorNuevosProductos(Double minutosMaxExperaPorNuevosProductos) {
+        this.minutosMaxExperaPorNuevosProductos = minutosMaxExperaPorNuevosProductos;
+    }
 
-	public void sethRoungeKuttaHorno(Double hRoungeKuttaHorno) {
-		this.hRoungeKuttaHorno = hRoungeKuttaHorno;
-	}
+    public Double getMinutosEntreEncendidosHorno() {
+        return minutosEntreEncendidosHorno;
+    }
+
+    public void setMinutosEntreEncendidosHorno(Double minutosEntreEncendidosHorno) {
+        this.minutosEntreEncendidosHorno = minutosEntreEncendidosHorno;
+    }
+
+    public Double getTemperaturaInicialHorno() {
+        return temperaturaInicialHorno;
+    }
+
+    public void setTemperaturaInicialHorno(Double temperaturaInicialHorno) {
+        this.temperaturaInicialHorno = temperaturaInicialHorno;
+    }
+
+    public Long getCantProductosCocinarSiHayStock() {
+        return cantProductosCocinarSiHayStock;
+    }
+
+    public void setCantProductosCocinarSiHayStock(Long cantProductosCocinarSiHayStock) {
+        this.cantProductosCocinarSiHayStock = cantProductosCocinarSiHayStock;
+    }
+
+    public Long getCantProductosCocinarSiNoHayStock() {
+        return cantProductosCocinarSiNoHayStock;
+    }
+
+    public void setCantProductosCocinarSiNoHayStock(Long cantProductosCocinarSiNoHayStock) {
+        this.cantProductosCocinarSiNoHayStock = cantProductosCocinarSiNoHayStock;
+    }
+
+    public Double gethRoungeKuttaHorno() {
+        return hRoungeKuttaHorno;
+    }
+
+    public void sethRoungeKuttaHorno(Double hRoungeKuttaHorno) {
+        this.hRoungeKuttaHorno = hRoungeKuttaHorno;
+    }
+
+    public Long getMostrarCadaXDias() {
+        return mostrarCadaXDias;
+    }
+
+    public void setMostrarCadaXDias(Long mostrarCadaXDias) {
+        this.mostrarCadaXDias = mostrarCadaXDias;
+    }
 
 }

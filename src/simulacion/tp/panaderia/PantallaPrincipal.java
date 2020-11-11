@@ -5,9 +5,19 @@
  */
 package simulacion.tp.panaderia;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.Date;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -19,12 +29,19 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     Configuracion config = Configuracion.getInstance();
 
+
     /**
      * Creates new form PantallaPrincipal
      */
     public PantallaPrincipal() {
         initComponents();
-
+        
+//        NumberFormat doubleFormat = NumberFormat.getNumberInstance();
+//        doubleFormat.setMinimumFractionDigits(3);
+//        doubleFormat.setMaximumFractionDigits(3);
+//        
+//        txtMediaLlegadasClientes = new JFormattedTextField(doubleFormat);
+        
         // inicializacion
         txtMediaLlegadasClientes.setValue(config.getMediaMinutosLlegadaClientes());
         txtMinutosToleranciaClientes.setValue(config.getMinutosMaxExperaPorNuevosProductos());
@@ -37,6 +54,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         txtCantCocinarSiHayStock.setValue(config.getCantProductosCocinarSiHayStock());
         txtCantCocinarSiNoHayStock.setValue(config.getCantProductosCocinarSiNoHayStock());
         txtCantMaxCompraCliente.setValue(config.getCantidadMaxCompraCliente());
+        txtDiasSimular.setValue(config.getDiasSimular());
+        txtCantFilasVer.setValue(config.getCantFilasVisualizar());
 
     }
 
@@ -49,7 +68,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -58,7 +79,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txtMinutosToleranciaClientes = new javax.swing.JFormattedTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtCantMaxCompraCliente = new javax.swing.JFormattedTextField();
+        txtCantMaxCompraCliente = new javax.swing.JSpinner();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -67,7 +88,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         txtMinutosAtencionB = new javax.swing.JFormattedTextField();
         jLabel13 = new javax.swing.JLabel();
-        txtStockInicial = new javax.swing.JFormattedTextField();
+        txtStockInicial = new javax.swing.JSpinner();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtMinutosEntreEncendidos = new javax.swing.JFormattedTextField();
@@ -76,17 +97,26 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtTemperaturaInicial = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtCantCocinarSiHayStock = new javax.swing.JFormattedTextField();
+        txtCantCocinarSiHayStock = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
-        txtCantCocinarSiNoHayStock = new javax.swing.JFormattedTextField();
+        txtCantCocinarSiNoHayStock = new javax.swing.JSpinner();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        txtDiasSimular = new javax.swing.JSpinner();
+        jLabel17 = new javax.swing.JLabel();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jLabel18 = new javax.swing.JLabel();
+        txtCantFilasVer = new javax.swing.JSpinner();
+        jPanel8 = new javax.swing.JPanel();
         btnSimular = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaSimulacion = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 3, 1, 0));
+        jPanel2.setLayout(new java.awt.GridLayout(0, 2));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Clientes"));
         jPanel3.setLayout(new java.awt.GridLayout(0, 2));
@@ -114,11 +144,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel15.setText("Cant. Max. Compra Cliente");
         jPanel3.add(jLabel15);
 
-        txtCantMaxCompraCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtCantMaxCompraCliente.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCantMaxCompraCliente.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(10L), Long.valueOf(1L)));
         jPanel3.add(txtCantMaxCompraCliente);
 
-        jPanel1.add(jPanel3);
+        jPanel2.add(jPanel3);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Empleados"));
         jPanel4.setLayout(new java.awt.GridLayout(0, 2));
@@ -146,11 +175,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel13.setText("Stock Inicial");
         jPanel4.add(jLabel13);
 
-        txtStockInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtStockInicial.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtStockInicial.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(100L), Long.valueOf(1L)));
         jPanel4.add(txtStockInicial);
 
-        jPanel1.add(jPanel4);
+        jPanel2.add(jPanel4);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Horno"));
         jPanel5.setLayout(new java.awt.GridLayout(0, 2));
@@ -179,20 +207,42 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel4.setText("Cant. Cocinar si Hay Stock");
         jPanel5.add(jLabel4);
 
-        txtCantCocinarSiHayStock.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtCantCocinarSiHayStock.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCantCocinarSiHayStock.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(100L), Long.valueOf(1L)));
         jPanel5.add(txtCantCocinarSiHayStock);
 
         jLabel6.setText("Cant. Cocinar si NO hay Stock");
         jPanel5.add(jLabel6);
 
-        txtCantCocinarSiNoHayStock.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtCantCocinarSiNoHayStock.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCantCocinarSiNoHayStock.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(100L), Long.valueOf(1L)));
         jPanel5.add(txtCantCocinarSiNoHayStock);
 
-        jPanel1.add(jPanel5);
+        jPanel2.add(jPanel5);
 
-        getContentPane().add(jPanel1);
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Simulacion"));
+        jPanel9.setLayout(new java.awt.GridLayout(0, 2));
+
+        jLabel16.setText("Dias Simular");
+        jPanel9.add(jLabel16);
+
+        txtDiasSimular.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(100000L), Long.valueOf(1L)));
+        jPanel9.add(txtDiasSimular);
+
+        jLabel17.setText("Ver a partir de Fecha");
+        jPanel9.add(jLabel17);
+
+        jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jFormattedTextField2.setText("jFormattedTextField2");
+        jPanel9.add(jFormattedTextField2);
+
+        jLabel18.setText("Cantidad de Iteraciones a ver");
+        jPanel9.add(jLabel18);
+
+        txtCantFilasVer.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(100L), Long.valueOf(1L), Long.valueOf(100000L), Long.valueOf(1L)));
+        jPanel9.add(txtCantFilasVer);
+
+        jPanel2.add(jPanel9);
+
+        jPanel1.add(jPanel2);
 
         btnSimular.setText("Simular");
         btnSimular.addActionListener(new java.awt.event.ActionListener() {
@@ -200,7 +250,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 btnSimularActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSimular);
+        jPanel8.add(btnSimular);
+
+        jPanel1.add(jPanel8);
+
+        jTabbedPane1.addTab("Configuración", jPanel1);
+
+        jPanel6.setLayout(new java.awt.CardLayout());
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -208,79 +264,155 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         tablaSimulacion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(tablaSimulacion);
 
-        getContentPane().add(jScrollPane1);
+        jPanel6.add(jScrollPane1, "card2");
+
+        jTabbedPane1.addTab("Resultados Simulación", jPanel6);
+
+        getContentPane().add(jTabbedPane1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
-        comenzarSimulacion();
+        if(validarConfiguracionIngresada()) {
+            comenzarSimulacion();
+        }
     }//GEN-LAST:event_btnSimularActionPerformed
 
+    private boolean validarConfiguracionIngresada() {
+        Number numero;
+        
+        numero = (Number) txtMediaLlegadasClientes.getValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "La media de minutos entre llegadas de clientes no puede ser menor o igual a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.setMediaMinutosLlegadaClientes(numero.doubleValue());
+        
+        numero = (Number) txtMinutosToleranciaClientes.getValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "La tolerancia de minutos de espera para cocci\u00f3n de productos no puede ser menor o igual a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.setMinutosMaxExperaPorNuevosProductos(numero.doubleValue());
+        
+        Double minutosAtencionA;
+        Double minutosAtencionB;
+        
+        numero = (Number) txtMinutosAtencionA.getValue();
+        minutosAtencionA = numero.doubleValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "Los minutos de atenci\u00f3n de los empleados no puede ser menor o igual a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.setMinutosAtencionEmpleadosA(numero.doubleValue());
+        
+        numero = (Number) txtMinutosAtencionB.getValue();
+        minutosAtencionB = numero.doubleValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "Los minutos de atenci\u00f3n de los empleados no puede ser menor o igual a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.setMinutosAtencionEmpleadosB(numero.doubleValue());
+        
+        if(minutosAtencionA > minutosAtencionB) {
+            JOptionPane.showMessageDialog(null, "Para los minutos de atenci\u00f3n de los empleados el l\u00edmite inferior no puede ser mayor al superior", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        numero = (Number) txtStockInicial.getValue();
+        config.setCantidadStockProductosInicial(numero.longValue());
+        
+        numero = (Number) txtMinutosEntreEncendidos.getValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "Los minutos entre encedidos del horno no puede ser menor o igual a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.setMinutosEntreEncendidosHorno(numero.doubleValue());
+        
+        numero = (Number) txtMinutosTemperaturaMaxima.getValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "Los minutos en temperatura m\u00e1xima del horno no puede ser menor o igual a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.setMinutosTemperaturaMaximaHorno(numero.doubleValue());
+        
+        numero = (Number) txtTemperaturaInicial.getValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "La temperatura inicial del horno no pueder ser menor a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.setTemperaturaInicialHorno(numero.doubleValue());
+        
+        numero = (Number) txtCantCocinarSiHayStock.getValue();
+        config.setCantProductosCocinarSiHayStock(numero.longValue());
+        numero = (Number) txtCantCocinarSiNoHayStock.getValue();
+        config.setCantProductosCocinarSiNoHayStock(numero.longValue());
+        numero = (Number) txtCantMaxCompraCliente.getValue();
+        config.setCantidadMaxCompraCliente(numero.longValue());
+        numero = (Number) txtDiasSimular.getValue();
+        config.setDiasSimular(numero.longValue());
+        numero = (Number) txtCantFilasVer.getValue();
+        config.setCantFilasVisualizar(numero.longValue());
+       
+        return true;
+    }
+    
     private Long nroCliente = 0l;
 
     public void comenzarSimulacion() {
-        
-        config.setMediaMinutosLlegadaClientes((Double) txtMediaLlegadasClientes.getValue());
-        config.setMinutosMaxExperaPorNuevosProductos((Double) txtMinutosToleranciaClientes.getValue());
-        config.setMinutosAtencionEmpleadosA((Double) txtMinutosAtencionA.getValue());
-        config.setMinutosAtencionEmpleadosB((Double) txtMinutosAtencionB.getValue());
-        config.setCantidadStockProductosInicial((Long) txtStockInicial.getValue());
-        config.setMinutosEntreEncendidosHorno((Double) txtMinutosEntreEncendidos.getValue());
-        config.setMinutosTemperaturaMaximaHorno((Double) txtMinutosTemperaturaMaxima.getValue());
-        config.setTemperaturaInicialHorno((Double) txtTemperaturaInicial.getValue());
-        config.setCantProductosCocinarSiHayStock((Long) txtCantCocinarSiHayStock.getValue());
-        config.setCantProductosCocinarSiNoHayStock((Long) txtCantCocinarSiNoHayStock.getValue());
-        config.setCantidadMaxCompraCliente((Long) txtCantMaxCompraCliente.getValue());
 
         nroCliente = 0l;
         VectorEstado anterior = new VectorEstado();
         VectorEstado actual = getVectorEstadoInicial();
         int nroFilaTabla = 0;
         Long nroFilaSimulacion = 0l;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         // Seteos de la tabla
-        DefaultTableModel tableModel = new DefaultTableModel();
+        DefaultTableModel tableModel = actual.getTableModel();
         tablaSimulacion.setModel(tableModel);
-        tableModel.addColumn("Reloj");
-        tableModel.addColumn("Evento");
-        tableModel.addColumn("Info Evento");
-        tableModel.addColumn("Prox Lleg Cli");
-        tableModel.addColumn("Cola");
-        tableModel.addColumn("Orden Cola");
-        tableModel.addColumn("Stock");
-        tableModel.addColumn("Empl 1 - Estado");
-        tableModel.addColumn("Empl 1 - Prox Fin Ate");
-        tableModel.addColumn("Empl 2 - Estado");
-        tableModel.addColumn("Empl 2 - Prox Fin Ate");
-        tableModel.addColumn("Horno - Estado");
-        tableModel.addColumn("Horno - Prox Ini Coccion");
-        tableModel.addColumn("Horno - Prox Fin Coccion");
-        tableModel.addColumn("Horno - Cant Cocinar");
-        tableModel.addColumn("Total Clientes");
-        tableModel.addColumn("Total Perdidos");
-        tableModel.addColumn("% Perdidos");
         
+        DefaultTableCellRenderer centerCellRenderer = new DefaultTableCellRenderer();
+        centerCellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        
+        DefaultTableCellRenderer eventCellRendered = new DefaultTableCellRenderer();
+        eventCellRendered.setBackground(Color.ORANGE);
+           
         TableColumnModel columnModel = tablaSimulacion.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(130);
+        columnModel.getColumn(0).setPreferredWidth(70);
         columnModel.getColumn(1).setPreferredWidth(130);
         columnModel.getColumn(2).setPreferredWidth(130);
-        columnModel.getColumn(3).setPreferredWidth(130);
-        columnModel.getColumn(4).setPreferredWidth(40);
-        columnModel.getColumn(5).setPreferredWidth(80);
-        columnModel.getColumn(6).setPreferredWidth(40);
-        columnModel.getColumn(7).setPreferredWidth(80);
-        columnModel.getColumn(8).setPreferredWidth(130);
-        columnModel.getColumn(9).setPreferredWidth(80);
-        columnModel.getColumn(10).setPreferredWidth(130);
-        columnModel.getColumn(11).setPreferredWidth(80);
-        columnModel.getColumn(12).setPreferredWidth(130);
+        columnModel.getColumn(3).setPreferredWidth(0);
+        columnModel.getColumn(4).setPreferredWidth(130);
+        columnModel.getColumn(4).setCellRenderer(eventCellRendered);
+        columnModel.getColumn(5).setPreferredWidth(40);
+        columnModel.getColumn(5).setCellRenderer(centerCellRenderer);
+        columnModel.getColumn(6).setPreferredWidth(80);
+        columnModel.getColumn(7).setPreferredWidth(40);
+        columnModel.getColumn(7).setCellRenderer(centerCellRenderer);
+        columnModel.getColumn(8).setPreferredWidth(80);
+        columnModel.getColumn(8).setCellRenderer(centerCellRenderer);
+        columnModel.getColumn(9).setPreferredWidth(130);
+        columnModel.getColumn(9).setCellRenderer(eventCellRendered);
+        columnModel.getColumn(10).setPreferredWidth(80);
+        columnModel.getColumn(10).setCellRenderer(centerCellRenderer);
+        columnModel.getColumn(11).setPreferredWidth(130);
+        columnModel.getColumn(11).setCellRenderer(eventCellRendered);
+        columnModel.getColumn(12).setPreferredWidth(80);
+        columnModel.getColumn(12).setCellRenderer(centerCellRenderer);
         columnModel.getColumn(13).setPreferredWidth(130);
-        columnModel.getColumn(14).setPreferredWidth(40);
-        columnModel.getColumn(15).setPreferredWidth(60);
+        columnModel.getColumn(13).setCellRenderer(eventCellRendered);
+        columnModel.getColumn(14).setPreferredWidth(130);
+        columnModel.getColumn(14).setCellRenderer(eventCellRendered);
+        columnModel.getColumn(15).setPreferredWidth(40);
+        columnModel.getColumn(15).setCellRenderer(centerCellRenderer);
         columnModel.getColumn(16).setPreferredWidth(60);
+        columnModel.getColumn(16).setCellRenderer(centerCellRenderer);
         columnModel.getColumn(17).setPreferredWidth(60);
+        columnModel.getColumn(17).setCellRenderer(centerCellRenderer);
+        columnModel.getColumn(18).setPreferredWidth(60);
         
         // Comienza la simulacion
         while (!(actual.getEventoActual().getTipoEvento().equals(TipoEvento.FIN_SIMULACION))) {
@@ -363,28 +495,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
             }
 
-            //if(nroFilaSimulacion == 1 || nroFilaSimulacion%100 == 0) {
+            //if(nroFilaSimulacion == 1 || nroFilaSimulacion%10000 == 0) {
+            if(actual.getNroFila() <= Configuracion.getInstance().getCantFilasVisualizar()) {
                 tableModel.insertRow(nroFilaTabla,
-                     new Object[]{actual.getReloj().format(formatter),
-                        actual.getEventoActual().getTipoEvento().name(),
-                        actual.getInfoEvento(),
-                        actual.getMomentoProxLlegadaCli(),
-                        actual.getCola().getTamanoCola(),
-                        actual.getCola().getOrdenClientesEnCola(),
-                        actual.getCantidadStockProductos(),
-                        actual.getEstadoEmpleado(1).name(),
-                        actual.getProximoFinAteEmpleado(1),
-                        actual.getEstadoEmpleado(2).name(),
-                        actual.getProximoFinAteEmpleado(2),
-                        actual.getHorno().getEstado().name(),
-                        actual.getProximoIniCoccion(),
-                        actual.getHorno().getMomentoFinCoccion(),
-                        actual.getHorno().getCantidadCocinar(),
-                        actual.getCantClientesSistema(),
-                        actual.getCantClientesPerdidos(),
-                        actual.getPorcClientesPerdidos()});
+                     actual.getFilaImprimir());
                 nroFilaTabla += 1;
-            //}
+            }
             
             // Genero el vector estado actual nuevo
             anterior = actual;
@@ -392,24 +508,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
 
         tableModel.insertRow(nroFilaTabla,
-                     new Object[]{actual.getReloj().format(formatter),
-                        actual.getEventoActual().getTipoEvento().name(),
-                        actual.getInfoEvento(),
-                        actual.getMomentoProxLlegadaCli(),
-                        actual.getCola().getTamanoCola(),
-                        actual.getCola().getOrdenClientesEnCola(),
-                        actual.getCantidadStockProductos(),
-                        actual.getEstadoEmpleado(1).name(),
-                        actual.getProximoFinAteEmpleado(1),
-                        actual.getEstadoEmpleado(2).name(),
-                        actual.getProximoFinAteEmpleado(2),
-                        actual.getHorno().getEstado().name(),
-                        actual.getProximoIniCoccion(),
-                        actual.getHorno().getMomentoFinCoccion(),
-                        actual.getHorno().getCantidadCocinar(),
-                        actual.getCantClientesSistema(),
-                        actual.getCantClientesPerdidos(),
-                        actual.getPorcClientesPerdidos()});
+                     actual.getFilaImprimir());
         System.out.println("Fin Simulacion!!");
 
     }
@@ -481,7 +580,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         actual.setCola(new Cola());
 
-        actual.setReloj(LocalDateTime.now());
+        LocalDate fecha = LocalDate.now();
+        actual.setReloj(LocalDateTime.of(fecha.getYear(), fecha.getMonthValue(), fecha.getDayOfMonth(), 8, 30 ));
         actual.setEventoActual(
                 new Evento(TipoEvento.INICIO_SIMULACION,
                         actual.getReloj()));
@@ -493,7 +593,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                         actual.getReloj().plusSeconds((long) (Configuracion.getInstance().getMinutosEntreEncendidosHorno() * 60))));
         actual.addEvento(
                 new Evento(TipoEvento.FIN_SIMULACION,
-                        actual.getReloj().plusHours(24 * Configuracion.getInstance().getDiasSimular())));
+                        actual.getReloj().plusDays(Configuracion.getInstance().getDiasSimular())));
 
         return actual;
     }
@@ -508,6 +608,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private VectorEstado getActual(VectorEstado anterior) {
         VectorEstado actual = new VectorEstado();
+        actual.setNroFila(anterior.getNroFila()+1);
         actual.setEventoActual(getProximoEvento(anterior));
         actual.setReloj(actual.getEventoActual().getMomentoOcurrencia());
         actual.setListEmpleados(anterior.getListEmpleados());
@@ -558,6 +659,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSimular;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -565,6 +667,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -574,21 +679,28 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tablaSimulacion;
-    private javax.swing.JFormattedTextField txtCantCocinarSiHayStock;
-    private javax.swing.JFormattedTextField txtCantCocinarSiNoHayStock;
-    private javax.swing.JFormattedTextField txtCantMaxCompraCliente;
+    private javax.swing.JSpinner txtCantCocinarSiHayStock;
+    private javax.swing.JSpinner txtCantCocinarSiNoHayStock;
+    private javax.swing.JSpinner txtCantFilasVer;
+    private javax.swing.JSpinner txtCantMaxCompraCliente;
+    private javax.swing.JSpinner txtDiasSimular;
     private javax.swing.JFormattedTextField txtMediaLlegadasClientes;
     private javax.swing.JFormattedTextField txtMinutosAtencionA;
     private javax.swing.JFormattedTextField txtMinutosAtencionB;
     private javax.swing.JFormattedTextField txtMinutosEntreEncendidos;
     private javax.swing.JFormattedTextField txtMinutosTemperaturaMaxima;
     private javax.swing.JFormattedTextField txtMinutosToleranciaClientes;
-    private javax.swing.JFormattedTextField txtStockInicial;
+    private javax.swing.JSpinner txtStockInicial;
     private javax.swing.JFormattedTextField txtTemperaturaInicial;
     // End of variables declaration//GEN-END:variables
 }

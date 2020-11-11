@@ -48,7 +48,8 @@ public class Horno {
 			K4 = deltaMinuto * (-0.5 * (T + K3) + 900 / cantidadProductosCocinar );
 			
 			// Si hubo una diferencia de menos de un grado considero que no cambio la temperatura
-			if(Math.abs(T - TAnterior) < 1 ) {
+                        // Math.abs(T - TAnterior) < 1
+			if(T.longValue() == TAnterior.longValue() ) {
 				minutosLlevaEnTemperaturaMaxima += deltaMinuto;
 			} else {
 				minutosLlevaEnTemperaturaMaxima = 0d;
