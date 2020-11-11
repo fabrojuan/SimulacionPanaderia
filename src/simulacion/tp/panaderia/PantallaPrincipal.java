@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Date;
@@ -56,6 +58,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         txtCantMaxCompraCliente.setValue(config.getCantidadMaxCompraCliente());
         txtDiasSimular.setValue(config.getDiasSimular());
         txtCantFilasVer.setValue(config.getCantFilasVisualizar());
+        
+        
+        LocalDate fecha = LocalDate.now();
+        ZonedDateTime fechaHora = fecha.atStartOfDay(ZoneId.systemDefault());
+        fechaHora = fechaHora.plusHours(8);
+        fechaHora = fechaHora.plusMinutes(30);
+        Date fechaInicioSimulacion = Date.from(fechaHora.toInstant());
+        
+        txtFechaDesdeMostrar.setModel(new javax.swing.SpinnerDateModel(fechaInicioSimulacion, null, null, java.util.Calendar.DAY_OF_MONTH));
 
     }
 
@@ -104,7 +115,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         txtDiasSimular = new javax.swing.JSpinner();
         jLabel17 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        txtFechaDesdeMostrar = new javax.swing.JSpinner();
         jLabel18 = new javax.swing.JLabel();
         txtCantFilasVer = new javax.swing.JSpinner();
         jPanel8 = new javax.swing.JPanel();
@@ -158,14 +169,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel14.setText("Uniforme");
         jPanel4.add(jLabel14);
 
-        jLabel11.setText("Minutos T. Atencion Distr Unif A");
+        jLabel11.setText("Minutos Lim. Inferior");
         jPanel4.add(jLabel11);
 
         txtMinutosAtencionA.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.000"))));
         txtMinutosAtencionA.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel4.add(txtMinutosAtencionA);
 
-        jLabel12.setText("Minutos T. Atencion Distr Unif B");
+        jLabel12.setText("Minutos Lim. Superior");
         jPanel4.add(jLabel12);
 
         txtMinutosAtencionB.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.000"))));
@@ -224,20 +235,19 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel16.setText("Dias Simular");
         jPanel9.add(jLabel16);
 
-        txtDiasSimular.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(100000L), Long.valueOf(1L)));
+        txtDiasSimular.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(10000L), Long.valueOf(1L)));
         jPanel9.add(txtDiasSimular);
 
         jLabel17.setText("Ver a partir de Fecha");
         jPanel9.add(jLabel17);
 
-        jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField2.setText("jFormattedTextField2");
-        jPanel9.add(jFormattedTextField2);
+        txtFechaDesdeMostrar.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1605060885621L), new java.util.Date(1605060885621L), null, java.util.Calendar.DAY_OF_MONTH));
+        jPanel9.add(txtFechaDesdeMostrar);
 
         jLabel18.setText("Cantidad de Iteraciones a ver");
         jPanel9.add(jLabel18);
 
-        txtCantFilasVer.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(100L), Long.valueOf(1L), Long.valueOf(100000L), Long.valueOf(1L)));
+        txtCantFilasVer.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(100L), Long.valueOf(1L), Long.valueOf(500L), Long.valueOf(1L)));
         jPanel9.add(txtCantFilasVer);
 
         jPanel2.add(jPanel9);
@@ -354,6 +364,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         config.setDiasSimular(numero.longValue());
         numero = (Number) txtCantFilasVer.getValue();
         config.setCantFilasVisualizar(numero.longValue());
+        
+        Date fechaDesdeVisualizarAux= (Date) txtFechaDesdeMostrar.getValue();
+        LocalDateTime fechaDesdeVisualizar = LocalDateTime.ofInstant(fechaDesdeVisualizarAux.toInstant(),
+                                             ZoneId.systemDefault());
+        config.setFechaDesdeVisualizar(fechaDesdeVisualizar);
+        
        
         return true;
     }
@@ -367,8 +383,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         VectorEstado actual = getVectorEstadoInicial();
         int nroFilaTabla = 0;
         Long nroFilaSimulacion = 0l;
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         // Seteos de la tabla
         DefaultTableModel tableModel = actual.getTableModel();
@@ -427,7 +441,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
                 // Cuando un cliente llega, si no hay productos para vender en los próximos 5 minutos, se retira.
                 if (actual.getCantidadStockProductos().equals(0l)) {
-                    cliente.setMomentoEsperaAgotada(actual.getReloj().plusSeconds((long) (Configuracion.getInstance().getMinutosMaxExperaPorNuevosProductos() * 60)));
+                    cliente.setMomentoEsperaAgotada(actual.getReloj().plusSeconds((long) (config.getMinutosMaxExperaPorNuevosProductos() * 60)));
                     //
                     actual.addEvento(
                             new Evento(TipoEvento.ESPERA_CLIENTE_AGOTADA,
@@ -468,8 +482,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
             } else if (actual.getEventoActual().getTipoEvento().equals(TipoEvento.INICIO_COCCION)) {
                 actual.getHorno().empezarCoccion(actual.getCantidadStockProductos() > 0
-                        ? Configuracion.getInstance().getCantProductosCocinarSiHayStock()
-                        : Configuracion.getInstance().getCantProductosCocinarSiNoHayStock(),
+                        ? config.getCantProductosCocinarSiHayStock()
+                        : config.getCantProductosCocinarSiNoHayStock(),
                         actual);
 
             } else if (actual.getEventoActual().getTipoEvento().equals(TipoEvento.FIN_COCCION)) {
@@ -496,10 +510,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
 
             //if(nroFilaSimulacion == 1 || nroFilaSimulacion%10000 == 0) {
-            if(actual.getNroFila() <= Configuracion.getInstance().getCantFilasVisualizar()) {
-                tableModel.insertRow(nroFilaTabla,
-                     actual.getFilaImprimir());
-                nroFilaTabla += 1;
+            if(actual.getReloj().isAfter(config.getFechaDesdeVisualizar())
+                    || actual.getReloj().isEqual(config.getFechaDesdeVisualizar())) {
+                if(nroFilaTabla < config.getCantFilasVisualizar()) {
+                    tableModel.insertRow(nroFilaTabla, actual.getFilaImprimir());
+                    nroFilaTabla += 1;
+                }
             }
             
             // Genero el vector estado actual nuevo
@@ -518,7 +534,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         Double random = GeneradorRandom.nextDouble();
         int cantidadPedida = 0;
 
-        Double paso = 1d / Configuracion.getInstance().getCantidadMaxCompraCliente();
+        Double paso = 1d / config.getCantidadMaxCompraCliente();
         Double cotaInferior = 0d;
         Double cotaSuperior = paso;
         Boolean encontroCantidad = false;
@@ -554,7 +570,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     public LocalDateTime getMomentoProximaLlegadaCliente(LocalDateTime reloj) {
         Double minutosHastaProximaLlegada
-                = (-1 * Configuracion.getInstance().getMediaMinutosLlegadaClientes()) * Math.log(1 - GeneradorRandom.nextDouble());
+                = (-1 * config.getMediaMinutosLlegadaClientes()) * Math.log(1 - GeneradorRandom.nextDouble());
         return reloj.plusSeconds((long) (minutosHastaProximaLlegada * 60));
     }
 
@@ -569,12 +585,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private VectorEstado getVectorEstadoInicial() {
         VectorEstado actual = new VectorEstado();
         // Setup vector estado inicial
-        for (int i = 1; i <= Configuracion.getInstance().getCantidadEmpleados(); i++) {
+        for (int i = 1; i <= config.getCantidadEmpleados(); i++) {
             Empleado empleado = new Empleado(i);
             actual.addEmpleado(empleado);
         }
 
-        actual.setCantidadStockProductos(Configuracion.getInstance().getCantidadStockProductosInicial());
+        actual.setCantidadStockProductos(config.getCantidadStockProductosInicial());
 
         actual.setHorno(new Horno());
 
@@ -590,10 +606,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                         getMomentoProximaLlegadaCliente(actual.getReloj())));
         actual.addEvento(
                 new Evento(TipoEvento.INICIO_COCCION,
-                        actual.getReloj().plusSeconds((long) (Configuracion.getInstance().getMinutosEntreEncendidosHorno() * 60))));
+                        actual.getReloj().plusSeconds((long) (config.getMinutosEntreEncendidosHorno() * 60))));
         actual.addEvento(
                 new Evento(TipoEvento.FIN_SIMULACION,
-                        actual.getReloj().plusDays(Configuracion.getInstance().getDiasSimular())));
+                        actual.getReloj().plusDays(config.getInstance().getDiasSimular())));
 
         return actual;
     }
@@ -659,7 +675,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSimular;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -694,6 +709,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner txtCantFilasVer;
     private javax.swing.JSpinner txtCantMaxCompraCliente;
     private javax.swing.JSpinner txtDiasSimular;
+    private javax.swing.JSpinner txtFechaDesdeMostrar;
     private javax.swing.JFormattedTextField txtMediaLlegadasClientes;
     private javax.swing.JFormattedTextField txtMinutosAtencionA;
     private javax.swing.JFormattedTextField txtMinutosAtencionB;

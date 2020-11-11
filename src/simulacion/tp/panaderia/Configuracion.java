@@ -5,6 +5,8 @@
  */
 package simulacion.tp.panaderia;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author juan
@@ -33,6 +35,15 @@ public class Configuracion {
     private Long mostrarCadaXDias = 1000l;
     private int horasAtencion;
     private Long cantFilasVisualizar;
+    private LocalDateTime fechaDesdeVisualizar;
+
+    public LocalDateTime getFechaDesdeVisualizar() {
+        return fechaDesdeVisualizar;
+    }
+
+    public void setFechaDesdeVisualizar(LocalDateTime fechaDesdeVisualizar) {
+        this.fechaDesdeVisualizar = fechaDesdeVisualizar;
+    }
 
     public Long getCantFilasVisualizar() {
         return cantFilasVisualizar;
@@ -67,7 +78,8 @@ public class Configuracion {
         cantProductosCocinarSiNoHayStock = 45l;
         hRoungeKuttaHorno = 0.5d;
         horasAtencion = 20;
-        cantFilasVisualizar = 10000l;
+        cantFilasVisualizar = 500l;
+        
     }
 
     public static Configuracion getInstance() {
