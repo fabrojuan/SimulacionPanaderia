@@ -40,11 +40,6 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JProgressBar" name="progressBar">
-              <Properties>
-                <Property name="indeterminate" type="boolean" value="true"/>
-              </Properties>
-            </Component>
             <Container class="javax.swing.JPanel" name="jPanel2">
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
@@ -261,9 +256,6 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="h Rounge Kutta"/>
                       </Properties>
-                      <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="h Rounge Kutta"/>
-                      </AccessibilityProperties>
                     </Component>
                     <Component class="javax.swing.JFormattedTextField" name="txtHRK">
                       <Properties>
@@ -331,7 +323,9 @@
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel8">
 
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
+                <Property name="axis" type="int" value="1"/>
+              </Layout>
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnSimular">
                   <Properties>

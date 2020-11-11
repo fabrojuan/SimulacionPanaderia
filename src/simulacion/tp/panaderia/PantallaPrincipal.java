@@ -6,6 +6,7 @@
 package simulacion.tp.panaderia;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -28,7 +31,7 @@ import javax.swing.table.TableColumnModel;
  * @author juan
  */
 public class PantallaPrincipal extends javax.swing.JFrame {
-
+    
     Configuracion config = Configuracion.getInstance();
     
     /**
@@ -36,14 +39,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     public PantallaPrincipal() {
         initComponents();
-        
-        progressBar.setVisible(false);
-        progressBar.setStringPainted(true);
-
-        
-//        JProgressBar progressBar = new JProgressBar(0, 100);
-//        progressBar.setValue(0);
-//        progressBar.setStringPainted(true);
         
         // inicializacion
         txtMediaLlegadasClientes.setValue(config.getMediaMinutosLlegadaClientes());
@@ -83,7 +78,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        progressBar = new javax.swing.JProgressBar();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -131,9 +125,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
-
-        progressBar.setIndeterminate(true);
-        jPanel1.add(progressBar);
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 2));
 
@@ -237,7 +228,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jLabel19.setText("h Rounge Kutta");
         jPanel5.add(jLabel19);
-        jLabel19.getAccessibleContext().setAccessibleName("h Rounge Kutta");
 
         txtHRK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.000"))));
         txtHRK.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -269,6 +259,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jPanel2.add(jPanel9);
 
         jPanel1.add(jPanel2);
+
+        jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.Y_AXIS));
 
         btnSimular.setText("Simular");
         btnSimular.addActionListener(new java.awt.event.ActionListener() {
@@ -400,7 +392,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private Long nroCliente = 0l;
 
     public void comenzarSimulacion() {
-        progressBar.setVisible(true);
+        
+        btnSimular.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        
         nroCliente = 0l;
         VectorEstado anterior = new VectorEstado();
         VectorEstado actual = getVectorEstadoInicial();
@@ -532,6 +526,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
             }
 
+           
             if(actual.getNroFila()==1) {
                 tableModel.insertRow(nroFilaTabla, actual.getFilaImprimir());
                 nroFilaTabla += 1;
@@ -551,7 +546,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         tableModel.insertRow(nroFilaTabla,
                      actual.getFilaImprimir());
         
-        progressBar.setVisible(false);
+        btnSimular.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         jTabbedPane1.setSelectedIndex(1);
         System.out.println("Fin Simulacion!!");
 
@@ -732,7 +727,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JProgressBar progressBar;
     private javax.swing.JTable tablaSimulacion;
     private javax.swing.JSpinner txtCantCocinarSiHayStock;
     private javax.swing.JSpinner txtCantCocinarSiNoHayStock;
@@ -750,4 +744,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner txtStockInicial;
     private javax.swing.JFormattedTextField txtTemperaturaInicial;
     // End of variables declaration//GEN-END:variables
+
+
+
+    
 }
