@@ -3,16 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/TipoEvento.java</file>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/Empleado.java</file>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/GeneradorRandom.java</file>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/Cliente.java</file>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/EstadoServidor.java</file>
             <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/Configuracion.java</file>
             <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/VectorEstado.java</file>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/Cola.java</file>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/Evento.java</file>
-            <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/Horno.java</file>
             <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/PantallaPrincipal.java</file>
             <file>file:/home/juan/NetBeansProjects/Simulacion-TP-Panaderia/src/simulacion/tp/panaderia/SimulacionTPPanaderia.java</file>
         </group>

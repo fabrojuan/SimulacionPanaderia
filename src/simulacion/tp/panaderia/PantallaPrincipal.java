@@ -30,19 +30,20 @@ import javax.swing.table.TableColumnModel;
 public class PantallaPrincipal extends javax.swing.JFrame {
 
     Configuracion config = Configuracion.getInstance();
-
-
+    
     /**
      * Creates new form PantallaPrincipal
      */
     public PantallaPrincipal() {
         initComponents();
         
-//        NumberFormat doubleFormat = NumberFormat.getNumberInstance();
-//        doubleFormat.setMinimumFractionDigits(3);
-//        doubleFormat.setMaximumFractionDigits(3);
-//        
-//        txtMediaLlegadasClientes = new JFormattedTextField(doubleFormat);
+        progressBar.setVisible(false);
+        progressBar.setStringPainted(true);
+
+        
+//        JProgressBar progressBar = new JProgressBar(0, 100);
+//        progressBar.setValue(0);
+//        progressBar.setStringPainted(true);
         
         // inicializacion
         txtMediaLlegadasClientes.setValue(config.getMediaMinutosLlegadaClientes());
@@ -58,6 +59,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         txtCantMaxCompraCliente.setValue(config.getCantidadMaxCompraCliente());
         txtDiasSimular.setValue(config.getDiasSimular());
         txtCantFilasVer.setValue(config.getCantFilasVisualizar());
+        txtHRK.setValue(config.gethRoungeKuttaHorno());
         
         
         LocalDate fecha = LocalDate.now();
@@ -81,6 +83,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        progressBar = new javax.swing.JProgressBar();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -111,6 +114,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         txtCantCocinarSiHayStock = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         txtCantCocinarSiNoHayStock = new javax.swing.JSpinner();
+        jLabel19 = new javax.swing.JLabel();
+        txtHRK = new javax.swing.JFormattedTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         txtDiasSimular = new javax.swing.JSpinner();
@@ -126,6 +131,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+
+        progressBar.setIndeterminate(true);
+        jPanel1.add(progressBar);
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 2));
 
@@ -227,6 +235,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         txtCantCocinarSiNoHayStock.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), Long.valueOf(100L), Long.valueOf(1L)));
         jPanel5.add(txtCantCocinarSiNoHayStock);
 
+        jLabel19.setText("h Rounge Kutta");
+        jPanel5.add(jLabel19);
+        jLabel19.getAccessibleContext().setAccessibleName("h Rounge Kutta");
+
+        txtHRK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.000"))));
+        txtHRK.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPanel5.add(txtHRK);
+
         jPanel2.add(jPanel5);
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Simulacion"));
@@ -247,7 +263,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel18.setText("Cantidad de Iteraciones a ver");
         jPanel9.add(jLabel18);
 
-        txtCantFilasVer.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(100L), Long.valueOf(1L), Long.valueOf(500L), Long.valueOf(1L)));
+        txtCantFilasVer.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(100L), Long.valueOf(1L), Long.valueOf(2000L), Long.valueOf(1L)));
         jPanel9.add(txtCantFilasVer);
 
         jPanel2.add(jPanel9);
@@ -370,6 +386,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                                              ZoneId.systemDefault());
         config.setFechaDesdeVisualizar(fechaDesdeVisualizar);
         
+        numero = (Number) txtHRK.getValue();
+        if(numero.doubleValue() <= 0) {
+               JOptionPane.showMessageDialog(null, "El paso de c\u00e1lculo (h) de Rounge-Kutta no puede ser menor o igual a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
+               return false;
+        }
+        config.sethRoungeKuttaHorno(numero.doubleValue());
+        
        
         return true;
     }
@@ -377,7 +400,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private Long nroCliente = 0l;
 
     public void comenzarSimulacion() {
-
+        progressBar.setVisible(true);
         nroCliente = 0l;
         VectorEstado anterior = new VectorEstado();
         VectorEstado actual = getVectorEstadoInicial();
@@ -509,8 +532,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
             }
 
-            //if(nroFilaSimulacion == 1 || nroFilaSimulacion%10000 == 0) {
-            if(actual.getReloj().isAfter(config.getFechaDesdeVisualizar())
+            if(actual.getNroFila()==1) {
+                tableModel.insertRow(nroFilaTabla, actual.getFilaImprimir());
+                nroFilaTabla += 1;
+            } else if(actual.getReloj().isAfter(config.getFechaDesdeVisualizar())
                     || actual.getReloj().isEqual(config.getFechaDesdeVisualizar())) {
                 if(nroFilaTabla < config.getCantFilasVisualizar()) {
                     tableModel.insertRow(nroFilaTabla, actual.getFilaImprimir());
@@ -525,6 +550,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         tableModel.insertRow(nroFilaTabla,
                      actual.getFilaImprimir());
+        
+        progressBar.setVisible(false);
+        jTabbedPane1.setSelectedIndex(1);
         System.out.println("Fin Simulacion!!");
 
     }
@@ -685,6 +713,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -703,6 +732,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JProgressBar progressBar;
     private javax.swing.JTable tablaSimulacion;
     private javax.swing.JSpinner txtCantCocinarSiHayStock;
     private javax.swing.JSpinner txtCantCocinarSiNoHayStock;
@@ -710,6 +740,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner txtCantMaxCompraCliente;
     private javax.swing.JSpinner txtDiasSimular;
     private javax.swing.JSpinner txtFechaDesdeMostrar;
+    private javax.swing.JFormattedTextField txtHRK;
     private javax.swing.JFormattedTextField txtMediaLlegadasClientes;
     private javax.swing.JFormattedTextField txtMinutosAtencionA;
     private javax.swing.JFormattedTextField txtMinutosAtencionB;
