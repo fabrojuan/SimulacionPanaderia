@@ -356,7 +356,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         config.setMinutosTemperaturaMaximaHorno(numero.doubleValue());
         
         numero = (Number) txtTemperaturaInicial.getValue();
-        if(numero.doubleValue() <= 0) {
+        if(numero.doubleValue() < 0) {
                JOptionPane.showMessageDialog(null, "La temperatura inicial del horno no pueder ser menor a 0", "Advertencia" , JOptionPane.WARNING_MESSAGE);
                return false;
         }
